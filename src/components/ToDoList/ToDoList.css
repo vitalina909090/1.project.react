@@ -1,0 +1,58 @@
+.container-todo { 
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-add {
+   display: flex; 
+   width: 100%;
+   display: inline-block;
+}
+
+.form-add input {
+    flex: 1;
+    padding: 8px;
+}
+
+.form-add button {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.todo {
+    margin-top: 20px;
+}
+
+.filters {
+    display: flex;
+    justify-content: end;
+    gap: 8px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remove-btn {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-title {
+    font-weight: 700;
+}
+
+.task-title.done {
+    text-decoration: line-through;
+    color: gray;
+}

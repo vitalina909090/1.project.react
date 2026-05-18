@@ -1,0 +1,17 @@
+div {
+    text-align: center;
+}
+
+h1{
+    color: rgb(219, 178, 41);
+    font-size: 30px;
+}
+
+p{
+    color: rgb(111, 111, 204);
+    font-size: 20px;
+}
+
+i{
+    text-decoration: underline dotted;
+}
