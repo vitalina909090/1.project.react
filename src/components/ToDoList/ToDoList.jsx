@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './ToDoList.css'
 import ToDoFormAdd from './ToDoFormAdd';
 import Filters from './Filters';
@@ -8,6 +8,19 @@ import { nanoid } from 'nanoid'
 
 const ToDoList = () => {
     const [tasks, setTasks] = useState(items);
+    const [activeFilter, setActiveFilter] = useState('all')
+
+    useEffect(() => {
+        const data = localStorage.getItem('tasks');
+        if (data) {
+            setTasks(JSON.parse(data));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
+
 
     const addTask = (value) => {
         setTasks([...tasks,
@@ -41,6 +54,12 @@ const ToDoList = () => {
         }));
     };
 
+    const filtersData = {
+        all: () => true,
+        done: (item) => item.done,
+        "todo task": (item) => !item.done
+    }
+
     return (
         <div className='container-todo'>
             <h1>TODO LIST</h1>
@@ -48,10 +67,14 @@ const ToDoList = () => {
             <ToDoFormAdd addTask={addTask} />
 
             <div className="todo">
-                <Filters />
+                <Filters 
+                    setActiveFilter={setActiveFilter} 
+                    activeFilter={activeFilter}
+                    filtersData = {filtersData} 
+                />
 
                 <div className="list">
-                    {tasks.map(item =>
+                    {tasks.filter(filtersData[activeFilter]).map((item) => (
                         <Item
                             item={item}
                             key={item.id}
@@ -59,7 +82,7 @@ const ToDoList = () => {
                             toggleDone = {toggleDone}
                             changeTitle = {changeTitle}
                         />
-                    )}
+                    ))}
                 </div>  
             </div>
         </div>
