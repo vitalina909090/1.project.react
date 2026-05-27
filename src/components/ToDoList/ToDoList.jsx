@@ -1,19 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useReducer} from 'react';
 import './ToDoList.css'
 import ToDoFormAdd from './ToDoFormAdd';
 import Filters from './Filters';
 import Item from './Item';
 import items from './data';
-import { nanoid } from 'nanoid'
+import Modal from '../modal/Modal';
+// import { nanoid } from 'nanoid';
+import TaskReducer, { TaskActionTypes } from '../../reducers/TaskReducer';
 
 const ToDoList = () => {
-    const [tasks, setTasks] = useState(items);
+    const [tasks, dispatch] = useReducer(TaskReducer, items);
+
     const [activeFilter, setActiveFilter] = useState('all')
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [currentTask, setCurrentTask] = useState(null);
 
     useEffect(() => {
         const data = localStorage.getItem('tasks');
         if (data) {
-            setTasks(JSON.parse(data));
+            dispatch({
+                type: TaskActionTypes.FILL_TASKS,
+                payload: JSON.parse(data)
+            })
         }
     }, []);
 
@@ -21,37 +29,39 @@ const ToDoList = () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
+    const setModalData = (task) => {
+        setVisibleModal(true);
+        setCurrentTask(task);
+
+    }
+
 
     const addTask = (value) => {
-        setTasks([...tasks,
-            {
-                id: nanoid(),
-                title: value,
-                done: false
-            }
-        ]);
+        dispatch({
+            type: TaskActionTypes.ADD_TASK,
+            payload: value
+        });
     }
 
     const removeTask = (id) => {
-        setTasks(tasks.filter(item => item.id !== id));
+        dispatch({
+            type: TaskActionTypes.REMOVE_TASK,
+            payload: id
+        })
     }
 
     const toggleDone = (id) => {
-        setTasks(tasks.map(item => {
-            if (item.id === id) {
-                return { ...item, done: !item.done };
-            }
-            return item;
-        }));
+        dispatch({
+            type: TaskActionTypes.TOGGLE_DONE,
+            payload: id
+        })
     };
 
     const changeTitle = (id, title) => {
-        setTasks(tasks.map(item => {
-            if (item.id === id) {
-                return { ...item, title: title };
-            }
-            return item;
-        }));
+        dispatch({
+            type: TaskActionTypes.CHANGE_TITLE,
+            payload: { id, title }
+        })
     };
 
     const filtersData = {
@@ -81,10 +91,19 @@ const ToDoList = () => {
                             removeTask = {removeTask}
                             toggleDone = {toggleDone}
                             changeTitle = {changeTitle}
+                            setModalData = {setModalData}
                         />
                     ))}
                 </div>  
             </div>
+
+            <Modal 
+                visible={visibleModal} 
+                onClose={() => setVisibleModal(false)} 
+            >
+                <h1>Modal</h1>
+                <p>{currentTask?.title}</p>
+            </Modal>
         </div>
     );
 }

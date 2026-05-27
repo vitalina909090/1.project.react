@@ -1,25 +1,20 @@
-// import "./App.css";
-// import First from './components/learn/First';
-// import Second from './components/learn/Second';
-// import GregorioYZ from './components/learn/GregorioYZ';
-import ToDoList from './components/ToDoList/ToDoList';
+import { Outlet, useNavigation } from "react-router";
+import "./App.css";
+import Header from "./components/Header/Header";
+
 
 function App() {
-  
-  // const name = 'Vitalina';
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
 
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  
   return (
     <>
-      {/* <h1 style={{ color: 'red', fontSize: '50px' }}>Hello, {name}!</h1>
-      <h2 className="title">Lorem ipsum dolor sit amet.</h2> */}
-
-      {/* <First /> */}
-
-      {/* <GregorioYZ />*/}
-
-      <ToDoList />
-
-      {/* <Second /> */}
+      <Header />
+      <Outlet />
     </>
   );
 }

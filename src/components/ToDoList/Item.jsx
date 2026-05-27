@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import classNames from 'classnames';
 
-const Item = ({ item, removeTask, toggleDone, changeTitle }) => {
+const Item = ({ item, removeTask, toggleDone, changeTitle, setModalData }) => {
     const [isChecked, setIsChecked] = useState(item.done);
     const [isEditable, setIsEditable] = useState(false);
     const [titleError, setTitleError] = useState(null);
@@ -50,6 +50,10 @@ const Item = ({ item, removeTask, toggleDone, changeTitle }) => {
 
                     <button className='remove-btn' onClick={() => removeTask(item.id)}>
                         Delete
+                    </button>
+
+                    <button onClick={() => setModalData(item)}>
+                        Open modal
                     </button>
                 </div>
 
