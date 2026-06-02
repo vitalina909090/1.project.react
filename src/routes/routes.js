@@ -7,6 +7,7 @@ import UserDetails from "../pages/UserDetail";
 import { getUserDetails, getUsers, searchUsers } from "../loaders/usersLoaders";
 import SearchResults from "../pages/SearchResults";
 import ErrorBoudary from "../components/ErrorBoudary";
+import Posts from "../pages/Posts";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
                 path: '/search',
                 element: <SearchResults />,
                 loader: searchUsers
+            },
+            {
+                path: '/posts',
+                element: <Posts />
             }
         ]
     },

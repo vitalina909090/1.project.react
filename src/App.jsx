@@ -4,12 +4,12 @@ import Header from "./components/Header/Header";
 
 
 function App() {
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
+  // const navigation = useNavigation();
+  // const isLoading = navigation.state === "loading";
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+  // if (isLoading) {
+  //   return <h1>Loading...</h1>;
+  // }
   
   return (
     <>
