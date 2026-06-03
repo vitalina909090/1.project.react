@@ -1,13 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState, memo } from 'react';
 import classNames from 'classnames';
 
 const Item = ({ item, removeTask, toggleDone, changeTitle, setModalData }) => {
-    const [isChecked, setIsChecked] = useState(item.done);
     const [isEditable, setIsEditable] = useState(false);
     const [titleError, setTitleError] = useState(null);
 
     const handleChecked = () => {
-        setIsChecked(!isChecked);
         toggleDone(item.id);
     }
 
@@ -40,7 +38,7 @@ const Item = ({ item, removeTask, toggleDone, changeTitle, setModalData }) => {
                 <div className="item">
                     <input
                         type="checkbox"
-                        checked={isChecked}
+                        checked={item.done}
                         onChange={handleChecked}
                     />
 
@@ -62,4 +60,4 @@ const Item = ({ item, removeTask, toggleDone, changeTitle, setModalData }) => {
         );
 }
 
-export default Item;
+export default memo(Item);

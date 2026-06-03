@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useReducer} from 'react';
+import React, {useEffect, useState, useReducer, useCallback} from 'react';
 import './ToDoList.css'
 import ToDoFormAdd from './ToDoFormAdd';
 import Filters from './Filters';
@@ -7,6 +7,13 @@ import items from './data';
 import Modal from '../modal/Modal';
 // import { nanoid } from 'nanoid';
 import TaskReducer, { TaskActionTypes } from '../../reducers/TaskReducer';
+
+
+const filtersData = {
+    all: () => true,
+    done: (item) => item.done,
+    "todo task": (item) => !item.done
+};
 
 const ToDoList = () => {
     const [tasks, dispatch] = useReducer(TaskReducer, items);
@@ -29,46 +36,39 @@ const ToDoList = () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
-    const setModalData = (task) => {
+    const setModalData = useCallback((task) => {
         setVisibleModal(true);
         setCurrentTask(task);
+    }, []);
 
-    }
 
-
-    const addTask = (value) => {
+    const addTask = useCallback((value) => {
         dispatch({
             type: TaskActionTypes.ADD_TASK,
             payload: value
         });
-    }
+    }, []);
 
-    const removeTask = (id) => {
+    const removeTask = useCallback((id) => {
         dispatch({
             type: TaskActionTypes.REMOVE_TASK,
             payload: id
-        })
-    }
+        });
+    }, []);
 
-    const toggleDone = (id) => {
+    const toggleDone = useCallback((id) => {
         dispatch({
             type: TaskActionTypes.TOGGLE_DONE,
             payload: id
-        })
-    };
+        });
+    }, []);
 
-    const changeTitle = (id, title) => {
+    const changeTitle = useCallback((id, title) => {
         dispatch({
             type: TaskActionTypes.CHANGE_TITLE,
             payload: { id, title }
-        })
-    };
-
-    const filtersData = {
-        all: () => true,
-        done: (item) => item.done,
-        "todo task": (item) => !item.done
-    }
+        });
+    }, []);
 
     return (
         <div className='container-todo'>
